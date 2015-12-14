@@ -3,6 +3,7 @@ package io.xhao.server.simple;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -11,7 +12,9 @@ public class SimpleServer {
 	public static void main(String[] args) {
 		ServerSocket serverSocket = null;
 		try {
-			serverSocket = new ServerSocket(8080);
+			serverSocket = new ServerSocket();
+			serverSocket.setReuseAddress(true);
+			serverSocket.bind(new InetSocketAddress(8080));
 			while (true) {
 				Socket client = serverSocket.accept();
 				new Thread(new Handler(client)).start();
